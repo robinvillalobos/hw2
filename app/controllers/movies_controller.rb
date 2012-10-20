@@ -5,7 +5,7 @@ class MoviesController < ApplicationController
     @movie = Movie.find(id) # look up movie by unique ID
     # will render app/views/movies/show.<extension> by default
   end
-
+#robin
   def index
 	if params[:type]=='Title'
 		@movies = Movie.find(:all, :order => 'title')
