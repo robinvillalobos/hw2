@@ -8,11 +8,19 @@ class MoviesController < ApplicationController
 #robin
   def index
 	if params[:type]=='Title'
+		
 		@movies = Movie.find(:all, :order => 'title')
+		@title_header = 'hilite'
+		@release_date_header = ''
+
 	elsif params[:type]=='Date'
-		@movies = Movie.find(:all, :order => 'release_date')	    
+		@movies = Movie.find(:all, :order => 'release_date')
+		@release_date_header = 'hilite'
+		@title_header = ''	    
 	else
 		@movies = Movie.all
+		@title_header = ''
+		@release_date_header = ''
 	end
   end
 
