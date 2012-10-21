@@ -14,7 +14,7 @@ Rottenpotatoes::Application.routes.draw do
   #   resources :products
   
 
-get '/movies/:method' => 'movies#getRatings'
+#get '/movies/:method' => 'movies#getRatings'
 	
 resources :movies
 

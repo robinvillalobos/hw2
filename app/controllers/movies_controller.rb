@@ -18,18 +18,39 @@ class MoviesController < ApplicationController
 
   def index
 	
+	
 	getRatings
+
+	if params[:type] != nil and params[:ratings] != nil
+		session.clear
+		session[:type] = params[:type]
+		session[:ratings] = params[:ratings]
+	elsif params[:type] != nil 
+		session.clear		
+		session[:type] = params[:type]
+	elsif params[:ratings] != nil 
+		session.clear
+		session[:ratings] = params[:ratings]		
+	elsif session.has_key?('type') and session.has_key?('ratings') 
+		redirect_to movies_path :type=>session[:type], :ratings=>session[:ratings]
+	elsif session.has_key?('type')
+		redirect_to movies_path :type=>session[:type]
+	elsif session.has_key?('ratings') 
+		redirect_to movies_path :ratings=>session[:ratings]
+	end
+
+
  	myWhere = Array.new
-	if params[:ratings].respond_to?(:each) 
-		
+
+	if params[:ratings] != nil 		
 		
 		params[:ratings].each_key do |key|
 			myWhere << key.to_s
+			
 		end
-	
 	end
 
-	if params[:type]=='Title'
+	if session[:type]=='Title'
 		if myWhere.length > 0 
 			@movies = Movie.where(:rating => myWhere).find(:all, :order => 'title')		
 		else
@@ -39,7 +60,7 @@ class MoviesController < ApplicationController
 		@title_header = 'hilite'
 		@release_date_header = ''
 
-	elsif params[:type]=='Date'
+	elsif session[:type]=='Date'
 		if myWhere.length > 0
 			@movies = Movie.where(:rating => myWhere).find(:all, :order => 'release_date')
 		else
